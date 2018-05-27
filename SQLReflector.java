@@ -1,5 +1,3 @@
-package com.horuslinkz.zcore.interfaces;
-
 import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -98,14 +96,18 @@ public interface SQLGenerator
     }
 }
 
-//Exec:
-//Customer c = new Customer("First Name", "Last Name", "Email", "Telephone");
-//System.out.println(c.getInsertStatement("Table"));
+// Exec:
+// Customer c = new Customer("First Name", "Last Name", "Email", "Telephone");
+// long start = System.currentTimeMillis();
+// String statement = c.getInsertStatement("Table");
+// long end = System.currentTimeMillis();
+// System.out.println("Cost: " + (end - start) + "ms");
+// System.out.println(statement);
 
-//Output:
-//INSERT INTO Table(customer_id, customer_group_id, store_id, language_id, firstname, lastname, email, telephone, fax, password, salt, cart, wishlist, newsletter, address_id, custom_field, ip, status, approved, safe, token, code, date_added) VALUES (0, 1, 1, 1, 'First Name', 'Last Name', 'Email', 'Telephone', '', NULL, NULL, '', '', true, 0, NULL, NULL, true, true, false, NULL, NULL, NOW());
+// Output:
+// INSERT INTO Table(customer_group_id, store_id, language_id, firstname, lastname, email, telephone, fax, password, salt, cart, wishlist, newsletter, address_id, custom_field, ip, status, approved, safe, token, code, date_added) VALUES (1, 1, 1, 'First Name', 'Last Name', 'Email', 'Telephone', '', NULL, NULL, '', '', true, 0, NULL, NULL, true, true, false, NULL, NULL, NOW());
 
-//Input:
+// Class:
 // public class Customer extends BaseModel implements SQLGenerator
 // {
 //     private int customer_id;
@@ -131,4 +133,33 @@ public interface SQLGenerator
 //     private String token;
 //     private String code;
 //     private String date_added = "NOW()";
+//
+//     //Skip this field if you want, or it is PK
+//     @Override public boolean shouldSkip (String field)
+//     {
+//         if(field.equals("customer_id"))
+//             return true;
+//         else
+//             return false;
+//     }
+//
+//     private Customer (){}
+//     public Customer (String firstname, String lastname, String email, String telephone)
+//     {
+//         this.firstname = firstname;
+//         this.lastname = lastname;
+//         this.email = email;
+//         this.telephone = telephone;
+//
+//         this.fax = "";
+//         this.cart = "";
+//         this.wishlist = "";
+//         this.newsletter = true;
+//
+//         customer_group_id = 1;
+//         store_id = 1;
+//         language_id = 1;
+//         status = true;
+//         approved = true;
+//     }
 // }
