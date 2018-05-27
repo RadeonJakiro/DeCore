@@ -1,7 +1,8 @@
-import org.apache.commons.lang3.StringUtils;
+package com.horuslinkz.zcore.interfaces;
 
+import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface SQLGenerator
@@ -24,24 +25,18 @@ public interface SQLGenerator
         }
     }
 
-    //You can @Override this method for custom configuration, default return 0 for mute annoying @Override
-    default String[] getEscapeField(){ return new String[0]; }
+    default boolean shouldSkip(String field){ return false; }
 
     default String[] getKeys()
     {
-        List<Field> fields = Arrays.asList(this.getClass().getDeclaredFields());
-        List<String> escapeFields = Arrays.asList();
+        Field[] fields = this.getClass().getDeclaredFields();
+        List<String> keys = new ArrayList<>();
+        
+        for(Field field : fields)
+            if(!shouldSkip(field.getName()))
+                keys.add(field.getName());
 
-        for(String fieldName : escapeFields)
-            for(Field field : fields)
-                if(field.getName().equals(fieldName))
-                    fields.remove(field);
-
-        String[] keys = new String[fields.size()];
-        for(int i = 0; i < fields.size(); ++i)
-            keys[i] = fields.get(i).getName();
-
-        return keys;
+        return keys.toArray(new String[keys.size()]);
     }
 
     default Object[] getValues()
